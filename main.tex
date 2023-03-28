@@ -1,0 +1,99 @@
+\documentclass[a4paper, twocolumn]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[Glenn]{fncychap}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+
+\title{Code Template for ACM-ICPC}
+\author{kesarPista}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\setlength\columnseprule{0.4pt}
+\geometry{a4paper,left=1cm,right=1cm,top=2cm,bottom=1.5cm}
+
+\lstset{frame=tb,
+  language=c++,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=2
+}
+
+\begin{document}
+\begin{titlepage}
+\maketitle
+\thispagestyle{empty}
+\pagebreak
+%\pagestyle{plain}
+\pagestyle{fancy}
+\lhead{}
+\rhead{}
+\chead{Code Template for ACM-ICPC, kesarPista}
+\cfoot{}
+\tableofcontents
+\end{titlepage}
+
+\pagestyle{fancy}
+\chead{Code Template for ACM-ICPC, kesarPista}
+\cfoot{- \thepage \ -}
+  
+\section{Template}
+\subsection{base.cpp}
+\lstinputlisting{codes/template_base.cpp}
+\subsection{cprun.sh}
+\lstinputlisting{codes/template_cprun.sh}
+\subsection{.vimrc}
+\lstinputlisting{codes/.template_vimrc}
+
+\section{Number Theory}
+
+
+\section{Range-Query}
+\subsection{segtree.cpp}
+\lstinputlisting{codes/RQ_segtree.cpp}
+\subsection{lazysegtree.cpp}
+\lstinputlisting{codes/RQ_lazysegtree.cpp}
+\subsection{bit.cpp}
+\lstinputlisting{codes/RQ_bit.cpp}
+\subsection{rmq.cpp}
+\lstinputlisting{codes/RQ_rmq.cpp}
+
+
+\section{String}
+\subsection{trie.cpp}
+\lstinputlisting{codes/S_trie.cpp}
+
+
+\section{Graph}
+\subsection{bridges.cpp}
+\lstinputlisting{codes/graph_bridges.cpp}
+\subsection{bridges-online.cpp}
+\lstinputlisting{codes/graph_bridges_online.cpp}
+\subsection{articulation.cpp}
+\lstinputlisting{codes/graph_articulation.cpp}
+\subsection{scc.cpp}
+\lstinputlisting{codes/graph_scc.cpp}
+\subsection{binlift.cpp}
+\lstinputlisting{codes/graph_binlift.cpp}
+
+
+\section{Miscellaneous}
+\subsection{mat.cpp}
+\lstinputlisting{codes/M_mat.cpp}
+
+\end{document}
