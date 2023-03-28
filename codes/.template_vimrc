@@ -1,0 +1,26 @@
+set nocp
+filetype plugin indent on
+set number
+set relativenumber
+syntax on
+colorscheme ron
+let mapleader = " "
+set tabstop=4 
+set shiftwidth=4
+set softtabstop=4
+set autoindent
+set expandtab
+if has('persistent_undo')
+    set undodir=$HOME/.vim/undo
+    set undofile
+endif
+set ignorecase
+set smartcase
+set incsearch
+nnoremap <leader>t :term<CR>
+inoremap { {}<Esc>ha
+inoremap ( ()<Esc>ha
+inoremap [ []<Esc>ha
+inoremap " ""<Esc>ha
+inoremap ' ''<Esc>ha
+inoremap ` ``<Esc>ha
