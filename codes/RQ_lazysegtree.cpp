@@ -1,17 +1,17 @@
-template<typename Info, typename Tag>
+template<typename I, typename T>
 class LazySegTree {
 public:
     int n;
-    vector<Info> info;
-    vector<Tag> tag;
+    vector<I> info;
+    vector<T> tag;
 
     LazySegTree(int _n) {
         n = _n;
-        info = vector<Info>(4 * n + 1);
-        tag = vector<Tag>(4 * n + 1);
+        info = vector<I>(4 * n + 1);
+        tag = vector<T>(4 * n + 1);
     }
 
-    LazySegTree(const vector<Info> &init) : LazySegTree(init.size()) {
+    LazySegTree(const vector<I> &init) : LazySegTree(init.size()) {
         function<void(int, int, int)> build = [&](int p, int l, int r) -> void {
             if(r == l) {
                 info[p] = init[l];
@@ -20,6 +20,7 @@ public:
             int m = l + (r - l) / 2;
             build(2 * p + 1, l, m);
             build(2 * p + 2, m + 1, r);
+            pull(p);
         };
         build(0, 0, n - 1);
     }
@@ -28,7 +29,7 @@ public:
         info[p] = info[2 * p + 1] + info[2 * p + 2];
     }
 
-    void apply(int p, const Tag &v) {
+    void apply(int p, const T &v) {
         info[p].apply(v);
         tag[p].apply(v);
     }
@@ -36,10 +37,10 @@ public:
     void push(int p) {
         apply(2 * p + 1, tag[p]);
         apply(2 * p + 2, tag[p]);
-        tag[p] = Tag();
+        tag[p] = T();
     }
 
-    void modify(int p, int l, int r, int x, const Info &v) {
+    void modify(int p, int l, int r, int x, const I &v) {
         if(r == l) {
             info[p] = v;
             return;
@@ -50,18 +51,18 @@ public:
         if(x <= m) {
             modify(2 * p + 1, l, m, x, v);
         } else {
-            modify(2 * p + 2, m + 1, r, v);
+            modify(2 * p + 2, m + 1, r, x, v);
         }
         pull(p);
     }
 
-    void modify(int p, const Info &v) {
+    void modify(int p, const I &v) {
         modify(0, 0, n - 1, p, v);
     }
 
-    Info rangeQuery(int p, int l, int r, int x, int y) {
+    I rangeQuery(int p, int l, int r, int x, int y) {
         if(y < l or r < x) {
-            return Info();
+            return I();
         }
 
         if(x <= l and r <= y) {
@@ -73,11 +74,11 @@ public:
         return rangeQuery(2 * p + 1, l, m, x, y) + rangeQuery(2 * p + 2, m + 1, r, x, y);
     }
 
-    Info rangeQuery(int l, int r) {
+    I rangeQuery(int l, int r) {
         return rangeQuery(0, 0, n - 1, l, r);
     }
 
-    void rangeApply(int p, int l, int r, int x, int y, const Tag &v) {
+    void rangeApply(int p, int l, int r, int x, int y, const T &v) {
         if(y < l or r < x) {
             return;
         }
@@ -94,7 +95,7 @@ public:
         pull(p);
     }
 
-    void rangeApply(int l, int r, const Tag &v) {
+    void rangeApply(int l, int r, const T &v) {
         return rangeApply(0, 0, n - 1, l, r, v);
     }
 };
@@ -144,7 +145,6 @@ public:
     string shiftingLetters(string s, vector<vector<int>>& shifts) {
         const int n = (int)s.size();
         LazySegTree<Sum, Tag> st(n);
-        
         for(const auto& v: shifts) {
             st.rangeApply(v[0], v[1], Tag(v[2]? +1: -1));
         }

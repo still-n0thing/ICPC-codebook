@@ -29,4 +29,4 @@ int main() {
     freopen("error.txt", "w", stderr);
 #endif
     return 0;
-} 
+}

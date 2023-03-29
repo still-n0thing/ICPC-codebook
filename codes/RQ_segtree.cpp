@@ -1,15 +1,15 @@
-template<typename Info>
+template<typename I>
 class SegTree {
 public:
     int n;
-    vector<Info> info;
+    vector<I> info;
 
     SegTree(int _n) {
         n = _n;
-        info = vector<Info>(4 * n + 1);
+        info = vector<I>(4 * n + 1);
     }
 
-    SegTree(const vector<Info> &init) : SegTree(init.size()) {
+    SegTree(const vector<I> &init) : SegTree(init.size()) {
         function<void(int, int, int)> build = [&](int p, int l, int r) -> void {
             if(l == r) {
                 info[p] = init[l];
@@ -18,6 +18,7 @@ public:
             int m = l + (r - l) / 2;
             build(2 * p + 1, l, m);
             build(2 * p + 2, m + 1, r);
+            pull(p);
         };
         build(0, 0, n - 1);
     }
@@ -26,7 +27,7 @@ public:
         info[p] = info[2 * p + 1] + info[2 * p + 2];
     }
 
-    void modify(int p, int l, int r, int x, const Info& v) {
+    void modify(int p, int l, int r, int x, const I& v) {
         if(r == l) {
             info[p] = v;
             return;
@@ -41,13 +42,13 @@ public:
         pull(p);
     }
 
-    void modify(int p, const Info& v) {
+    void modify(int p, const I& v) {
         modify(0, 0, n - 1, p, v);
     }
 
-    Info rangeQuery(int p, int l, int r, int x, int y) {
+    I rangeQuery(int p, int l, int r, int x, int y) {
         if(y < l or r < x) {
-            return Info();
+            return I();
         }
 
         if(x <= l and r <= y) {
@@ -58,7 +59,7 @@ public:
         return rangeQuery(2 * p + 1, l, m, x, y) + rangeQuery(2 * p + 2, m + 1, r, x, y);
     }
 
-    Info rangeQuery(int l, int r) {
+    I rangeQuery(int l, int r) {
         return rangeQuery(0, 0, n - 1, l, r);
     }
 };
@@ -90,7 +91,6 @@ public:
     long long numberOfPairs(vector<int>& nums1, vector<int>& nums2, int diff) {
         const int n = (int)nums1.size();
         SegTree<Sum> st(1e5 + 2);
-        
         int shift = 1e4;
         long long ans = 0;
         for(int i = 0; i < n; i++) {
